@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -11,650 +12,994 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #4a4a4a;
-            min-height: 100vh;
-            color: #333;
-        }
+```
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: #4a4a4a;
+        min-height: 100vh;
+        color: #333;
+    }
 
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .page {
+        display: none;
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        min-height: 600px;
+    }
+
+    .page.active {
+        display: block;
+    }
+
+    /* 홈페이지 스타일 */
+    .hero {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .hero h1 {
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        color: #4a5568;
+    }
+
+    .hero p {
+        font-size: 1.2em;
+        color: #718096;
+        margin-bottom: 30px;
+    }
+
+    .start-btn {
+        background: #2d3748;
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        font-size: 1.2em;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .start-btn:hover {
+        transform: translateY(-2px);
+        background: #1a202c;
+    }
+
+    /* 도구 메뉴 스타일 */
+    .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin-top: 30px;
+    }
+
+    .tool-card {
+        background: white;
+        border: 2px solid #e2e8f0;
+        border-radius: 15px;
+        padding: 25px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .tool-card:hover {
+        border-color: #4a5568;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .tool-card h3 {
+        font-size: 1.3em;
+        margin-bottom: 10px;
+        color: #4a5568;
+    }
+
+    .tool-card p {
+        color: #718096;
+    }
+
+    /* D-DAY 스타일 */
+    .dday-container {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .dday-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .new-dday-btn {
+        background: #48bb78;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .dday-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+    }
+
+    .dday-card {
+        background: white;
+        border: 2px solid #e2e8f0;
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .dday-card:hover {
+        border-color: #4a5568;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .dday-number {
+        font-size: 2.5em;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .dday-today { color: #e53e3e; }
+    .dday-soon { color: #dd6b20; }
+    .dday-normal { color: #4a5568; }
+    .dday-passed { color: #a0aec0; }
+
+    .dday-title {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #2d3748;
+    }
+
+    .dday-date {
+        color: #718096;
+        margin-bottom: 10px;
+    }
+
+    .dday-category {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .category-exam { background: #fed7d7; color: #c53030; }
+    .category-assignment { background: #bee3f8; color: #2b6cb0; }
+    .category-event { background: #c6f6d5; color: #2d7d32; }
+    .category-vacation { background: #fbb6ce; color: #b83280; }
+    .category-other { background: #e2e8f0; color: #4a5568; }
+
+    .dday-memo {
+        margin-top: 10px;
+        font-size: 13px;
+        color: #718096;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* 모달 스타일 */
+    .dday-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .dday-modal.active {
+        display: flex;
+    }
+
+    .modal-content {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        width: 90%;
+        max-width: 500px;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .close-modal-btn {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #a0aec0;
+    }
+
+    .input-group {
+        margin-bottom: 20px;
+    }
+
+    .input-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #4a5568;
+    }
+
+    .input-group input,
+    .input-group select,
+    .input-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 14px;
+    }
+
+    .input-group textarea {
+        height: 80px;
+        resize: vertical;
+    }
+
+    .modal-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+
+    .save-dday-btn {
+        background: #48bb78;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    .delete-dday-btn {
+        background: #f56565;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    .cancel-btn {
+        background: #e2e8f0;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    /* 학급 도우미 스타일 */
+    .helper-tools {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .helper-section {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        border: 2px solid #e2e8f0;
+    }
+
+    .helper-section h3 {
+        margin-bottom: 20px;
+        color: #4a5568;
+    }
+
+    .input-row, .checkbox-row {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .input-row label {
+        font-weight: bold;
+        min-width: 80px;
+        color: #4a5568;
+    }
+
+    .input-row input, .input-row textarea {
+        flex: 1;
+        padding: 8px 12px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        min-width: 100px;
+    }
+
+    .input-row textarea {
+        min-height: 80px;
+        resize: vertical;
+    }
+
+    .helper-btn {
+        background: #4a5568;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+
+    .helper-btn.secondary {
+        background: #e2e8f0;
+        color: #4a5568;
+    }
+
+    .seating-chart {
+        display: grid;
+        gap: 5px;
+        margin-top: 20px;
+        justify-content: center;
+    }
+
+    .seat {
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 10px;
+        text-align: center;
+        font-size: 13px;
+        font-weight: bold;
+        background: white;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .seat.occupied {
+        background: #f0f9ff;
+        border-color: #4a5568;
+        color: #2d3748;
+    }
+
+    .random-result {
+        background: #f7fafc;
+        border: 2px solid #4a5568;
+        border-radius: 15px;
+        padding: 20px;
+        margin-top: 20px;
+        text-align: center;
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #2d3748;
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* 공부 타이머 스타일 */
+    .timer-container {
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .timer-display {
+        font-size: 4em;
+        font-weight: bold;
+        color: #4a5568;
+        margin-bottom: 10px;
+    }
+
+    .timer-status {
+        font-size: 1.2em;
+        color: #718096;
+        margin-bottom: 30px;
+    }
+
+    .timer-controls {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+
+    .timer-btn {
+        padding: 15px 30px;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .timer-btn.start {
+        background: #48bb78;
+        color: white;
+    }
+
+    .timer-btn.pause {
+        background: #ed8936;
+        color: white;
+    }
+
+    .timer-btn.reset {
+        background: #e2e8f0;
+        color: #4a5568;
+    }
+
+    .timer-settings {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 30px;
+        border: 2px solid #e2e8f0;
+    }
+
+    .setting-row {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    .setting-row label {
+        font-weight: bold;
+        min-width: 120px;
+        color: #4a5568;
+    }
+
+    .timer-stats {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        border: 2px solid #e2e8f0;
+        text-align: left;
+    }
+
+    .stats-list {
+        margin-top: 15px;
+    }
+
+    .stats-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    /* 숙제 관리 스타일 */
+    .homework-container {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .homework-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .new-homework-btn {
+        background: #48bb78;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .homework-filters {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .filter-btn {
+        padding: 8px 16px;
+        border: 2px solid #e2e8f0;
+        background: white;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 14px;
+    }
+
+    .filter-btn.active {
+        background: #4a5568;
+        color: white;
+        border-color: #4a5568;
+    }
+
+    .homework-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .homework-item {
+        background: white;
+        border: 2px solid #e2e8f0;
+        border-radius: 15px;
+        padding: 20px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .homework-item:hover {
+        border-color: #4a5568;
+        transform: translateY(-2px);
+    }
+
+    .homework-item.completed {
+        opacity: 0.7;
+        background: #f0fff4;
+    }
+
+    .homework-header-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .homework-title {
+        font-weight: bold;
+        font-size: 1.1em;
+        color: #2d3748;
+    }
+
+    .homework-checkbox {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    .homework-meta {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        font-size: 13px;
+        color: #718096;
+    }
+
+    .homework-subject {
+        background: #e2e8f0;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-weight: bold;
+    }
+
+    .homework-priority {
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-weight: bold;
+    }
+
+    .priority-high {
+        background: #fed7d7;
+        color: #c53030;
+    }
+
+    .priority-medium {
+        background: #fefcbf;
+        color: #975a16;
+    }
+
+    .priority-low {
+        background: #c6f6d5;
+        color: #2d7d32;
+    }
+
+    .homework-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .homework-modal.active {
+        display: flex;
+    }
+
+    .back-btn {
+        background: #e2e8f0;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        margin-bottom: 20px;
+        transition: background 0.2s;
+    }
+
+    .back-btn:hover {
+        background: #cbd5e0;
+    }
+
+    /* 시간표 스타일 */
+    .timetable-controls {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .color-picker-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .color-picker-container label {
+        font-size: 14px;
+        color: #4a5568;
+    }
+
+    #colorPicker {
+        width: 40px;
+        height: 30px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .design-toggle {
+        display: flex;
+        gap: 10px;
+    }
+
+    .design-btn {
+        padding: 8px 16px;
+        border: 2px solid #e2e8f0;
+        background: white;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .design-btn.active {
+        background: #4a5568;
+        color: white;
+        border-color: #4a5568;
+    }
+
+    .action-btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .clear-btn { background: #fed7d7; color: #c53030; }
+    .clear-btn:hover { background: #feb2b2; }
+    .print-btn { background: #c6f6d5; color: #2d7d32; }
+    .print-btn:hover { background: #9ae6b4; }
+    .save-btn { background: #bee3f8; color: #2b6cb0; }
+    .save-btn:hover { background: #90cdf4; }
+    .load-btn { background: #fbb6ce; color: #b83280; }
+    .load-btn:hover { background: #f687b3; }
+
+    .timetable {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .simple-design .timetable {
+        border: 2px solid #000;
+    }
+
+    .simple-design .timetable th,
+    .simple-design .timetable td {
+        border: 1px solid #000;
+        background: white;
+        color: #000;
+    }
+
+    .pretty-design .timetable th {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        color: #8b4513;
+    }
+
+    .pretty-design .timetable td {
+        background: #fef7f0;
+        border: 1px solid #f4a261;
+    }
+
+    .pretty-design .timetable td:nth-child(odd) {
+        background: #e8f5e8;
+    }
+
+    .timetable th,
+    .timetable td {
+        padding: 12px 8px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .timetable input {
+        width: 100%;
+        border: none;
+        background: transparent;
+        text-align: center;
+        font-size: 13px;
+        padding: 4px;
+    }
+
+    /* 노트 스타일 */
+    .notes-container {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .notes-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .subject-tabs {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .subject-tab {
+        padding: 8px 16px;
+        border: 2px solid #e2e8f0;
+        background: white;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 14px;
+    }
+
+    .subject-tab.active {
+        background: #4a5568;
+        color: white;
+        border-color: #4a5568;
+    }
+
+    .search-bar {
+        padding: 10px 15px;
+        border: 2px solid #e2e8f0;
+        border-radius: 25px;
+        width: 250px;
+        font-size: 14px;
+    }
+
+    .new-note-btn {
+        background: #48bb78;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .notes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+    }
+
+    .note-card {
+        background: #f7fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 15px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .note-card:hover {
+        border-color: #4a5568;
+        transform: translateY(-2px);
+    }
+
+    .note-title {
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: #2d3748;
+    }
+
+    .note-preview {
+        color: #718096;
+        font-size: 13px;
+        margin-bottom: 10px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .note-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        color: #a0aec0;
+    }
+
+    .note-editor {
+        display: none;
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    .note-editor.active {
+        display: block;
+    }
+
+    .editor-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .note-title-input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .note-content-input {
+        width: 100%;
+        min-height: 400px;
+        padding: 15px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 14px;
+        line-height: 1.6;
+        resize: vertical;
+    }
+
+    .editor-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .save-note-btn {
+        background: #48bb78;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    .delete-note-btn {
+        background: #f56565;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    .close-editor-btn {
+        background: #cbd5e0;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    .stats {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        color: #718096;
+    }
+
+    @media (max-width: 768px) {
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            padding: 10px;
         }
-
+        
         .page {
-            display: none;
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            min-height: 600px;
+            padding: 20px;
         }
-
-        .page.active {
-            display: block;
-        }
-
-        /* 홈페이지 스타일 */
-        .hero {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .hero h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #4a5568;
-        }
-
-        .hero p {
-            font-size: 1.2em;
-            color: #718096;
-            margin-bottom: 30px;
-        }
-
-        .start-btn {
-            background: #2d3748;
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.2em;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .start-btn:hover {
-            transform: translateY(-2px);
-            background: #1a202c;
-        }
-
-        /* 도구 메뉴 스타일 */
+        
         .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
+            grid-template-columns: 1fr;
         }
-
-        .tool-card {
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 15px;
-            padding: 25px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .tool-card:hover {
-            border-color: #4a5568;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .tool-card h3 {
-            font-size: 1.3em;
-            margin-bottom: 10px;
-            color: #4a5568;
-        }
-
-        .tool-card p {
-            color: #718096;
-        }
-
-        /* D-DAY 스타일 */
-        .dday-container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .dday-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .new-dday-btn {
-            background: #48bb78;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .dday-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .dday-card {
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .dday-card:hover {
-            border-color: #4a5568;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .dday-number {
-            font-size: 2.5em;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .dday-today { color: #e53e3e; }
-        .dday-soon { color: #dd6b20; }
-        .dday-normal { color: #4a5568; }
-        .dday-passed { color: #a0aec0; }
-
-        .dday-title {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #2d3748;
-        }
-
-        .dday-date {
-            color: #718096;
-            margin-bottom: 10px;
-        }
-
-        .dday-category {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .category-exam { background: #fed7d7; color: #c53030; }
-        .category-assignment { background: #bee3f8; color: #2b6cb0; }
-        .category-event { background: #c6f6d5; color: #2d7d32; }
-        .category-vacation { background: #fbb6ce; color: #b83280; }
-        .category-other { background: #e2e8f0; color: #4a5568; }
-
-        .dday-memo {
-            margin-top: 10px;
-            font-size: 13px;
-            color: #718096;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        /* 모달 스타일 */
-        .dday-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .dday-modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .close-modal-btn {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #a0aec0;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #4a5568;
-        }
-
-        .input-group input,
-        .input-group select,
-        .input-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .input-group textarea {
-            height: 80px;
-            resize: vertical;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-
-        .save-dday-btn {
-            background: #48bb78;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-
-        .delete-dday-btn {
-            background: #f56565;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-
-        .cancel-btn {
-            background: #e2e8f0;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-
-        .back-btn {
-            background: #e2e8f0;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            margin-bottom: 20px;
-            transition: background 0.2s;
-        }
-
-        .back-btn:hover {
-            background: #cbd5e0;
-        }
-
-        /* 시간표 스타일 */
+        
         .timetable-controls {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            align-items: center;
+            flex-direction: column;
+            align-items: flex-start;
         }
-
-        .color-picker-container {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .color-picker-container label {
-            font-size: 14px;
-            color: #4a5568;
-        }
-
-        #colorPicker {
-            width: 40px;
-            height: 30px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .design-toggle {
-            display: flex;
-            gap: 10px;
-        }
-
-        .design-btn {
-            padding: 8px 16px;
-            border: 2px solid #e2e8f0;
-            background: white;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .design-btn.active {
-            background: #4a5568;
-            color: white;
-            border-color: #4a5568;
-        }
-
-        .action-btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .clear-btn { background: #fed7d7; color: #c53030; }
-        .clear-btn:hover { background: #feb2b2; }
-        .print-btn { background: #c6f6d5; color: #2d7d32; }
-        .print-btn:hover { background: #9ae6b4; }
-        .save-btn { background: #bee3f8; color: #2b6cb0; }
-        .save-btn:hover { background: #90cdf4; }
-        .load-btn { background: #fbb6ce; color: #b83280; }
-        .load-btn:hover { background: #f687b3; }
-
-        .timetable {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .simple-design .timetable {
-            border: 2px solid #000;
-        }
-
-        .simple-design .timetable th,
-        .simple-design .timetable td {
-            border: 1px solid #000;
-            background: white;
-            color: #000;
-        }
-
-        .pretty-design .timetable th {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            color: #8b4513;
-        }
-
-        .pretty-design .timetable td {
-            background: #fef7f0;
-            border: 1px solid #f4a261;
-        }
-
-        .pretty-design .timetable td:nth-child(odd) {
-            background: #e8f5e8;
-        }
-
-        .timetable th,
-        .timetable td {
-            padding: 12px 8px;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        .timetable input {
-            width: 100%;
-            border: none;
-            background: transparent;
-            text-align: center;
-            font-size: 13px;
-            padding: 4px;
-        }
-
-        /* 노트 스타일 */
-        .notes-container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .notes-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .subject-tabs {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .subject-tab {
-            padding: 8px 16px;
-            border: 2px solid #e2e8f0;
-            background: white;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 14px;
-        }
-
-        .subject-tab.active {
-            background: #4a5568;
-            color: white;
-            border-color: #4a5568;
-        }
-
+        
         .search-bar {
-            padding: 10px 15px;
-            border: 2px solid #e2e8f0;
-            border-radius: 25px;
-            width: 250px;
-            font-size: 14px;
-        }
-
-        .new-note-btn {
-            background: #48bb78;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .notes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .note-card {
-            background: #f7fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 15px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .note-card:hover {
-            border-color: #4a5568;
-            transform: translateY(-2px);
-        }
-
-        .note-title {
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #2d3748;
-        }
-
-        .note-preview {
-            color: #718096;
-            font-size: 13px;
-            margin-bottom: 10px;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .note-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: #a0aec0;
-        }
-
-        .note-editor {
-            display: none;
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .note-editor.active {
-            display: block;
-        }
-
-        .editor-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .note-title-input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .note-content-input {
             width: 100%;
-            min-height: 400px;
-            padding: 15px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 14px;
-            line-height: 1.6;
-            resize: vertical;
         }
+        
+        .notes-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
 
-        .editor-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
+    @media print {
+        body {
+            background: white;
         }
+        
+        .timetable-controls,
+        .back-btn {
+            display: none;
+        }
+        
+        .page {
+            box-shadow: none;
+            margin: 0;
+            padding: 0;
+        }
+    }
+</style>
+```
 
-        .save-note-btn {
-            background: #48bb78;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-
-        .delete-note-btn {
-            background: #f56565;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-
-        .close-editor-btn {
-            background: #cbd5e0;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-
-        .stats {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            color: #718096;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .page {
-                padding: 20px;
-            }
-            
-            .tools-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .timetable-controls {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .search-bar {
-                width: 100%;
-            }
-            
-            .notes-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
-
-        @media print {
-            body {
-                background: white;
-            }
-            
-            .timetable-controls,
-            .back-btn {
-                display: none;
-            }
-            
-            .page {
-                box-shadow: none;
-                margin: 0;
-                padding: 0;
-            }
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -668,633 +1013,1062 @@
             </div>
         </div>
 
-        <!-- 도구 메뉴 -->
-        <div class="page" id="toolsMenu">
-            <button class="back-btn" onclick="showPage('home')">← 홈으로</button>
-            <h2>📚 학습 도구 모음</h2>
-            <div class="tools-grid">
-                <div class="tool-card" onclick="showPage('timetable')">
-                    <h3>📅 시간표 만들기</h3>
-                    <p>나만의 예쁜 시간표 제작하고 프린트하기</p>
+```
+    <!-- 도구 메뉴 -->
+    <div class="page" id="toolsMenu">
+        <button class="back-btn" onclick="showPage('home')">← 홈으로</button>
+        <h2>📚 학습 도구 모음</h2>
+        <div class="tools-grid">
+            <div class="tool-card" onclick="showPage('timetable')">
+                <h3>📅 시간표 만들기</h3>
+                <p>나만의 예쁜 시간표 제작하고 프린트하기</p>
+            </div>
+            <div class="tool-card" onclick="showPage('notes')">
+                <h3>📚 과목별 노트</h3>
+                <p>과목별로 체계적인 노트 관리하기</p>
+            </div>
+            <div class="tool-card" onclick="showPage('dday')">
+                <h3>⏰ D-DAY 카운터</h3>
+                <p>여러 시험과 일정의 D-DAY 관리하기</p>
+            </div>
+            <div class="tool-card" onclick="showPage('classhelper')">
+                <h3>👥 학급 도우미</h3>
+                <p>자리 배치, 발표 순서, 이름 뽑기 등 학급 관리</p>
+            </div>
+            <div class="tool-card" onclick="showPage('studytimer')">
+                <h3>⏱️ 공부 타이머</h3>
+                <p>뽀모도로 기법으로 집중력 향상하기</p>
+            </div>
+            <div class="tool-card" onclick="showPage('homework')">
+                <h3>📝 숙제 관리</h3>
+                <p>과목별 숙제와 과제 체계적으로 관리하기</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 시간표 제작 도구 -->
+    <div class="page" id="timetable">
+        <button class="back-btn" onclick="showPage('toolsMenu')">← 도구 메뉴로</button>
+        <h2>📅 시간표 만들기</h2>
+        
+        <div class="timetable-controls">
+            <div class="design-toggle">
+                <button class="design-btn active" onclick="changeDesign('simple')">심플</button>
+                <button class="design-btn" onclick="changeDesign('pretty')">예쁜</button>
+            </div>
+            <div class="color-picker-container">
+                <label for="colorPicker">테마 색상:</label>
+                <input type="color" id="colorPicker" value="#4a5568" onchange="changeTableColor()">
+            </div>
+            <button class="action-btn clear-btn" onclick="clearTimetable()">전체 지우기</button>
+            <button class="action-btn print-btn" onclick="printTimetable()">프린트하기</button>
+            <button class="action-btn save-btn" onclick="saveTimetable()">저장하기</button>
+            <button class="action-btn load-btn" onclick="loadTimetable()">불러오기</button>
+            <input type="file" id="fileInput" style="display: none;" accept=".json" onchange="handleFileLoad(event)">
+        </div>
+
+        <div class="simple-design" id="timetableContainer">
+            <table class="timetable" id="timetableTable">
+                <thead>
+                    <tr>
+                        <th>월</th>
+                        <th>화</th>
+                        <th>수</th>
+                        <th>목</th>
+                        <th>금</th>
+                    </tr>
+                </thead>
+                <tbody id="timetableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 과목별 노트 도구 -->
+    <div class="page" id="notes">
+        <button class="back-btn" onclick="showPage('toolsMenu')">← 도구 메뉴로</button>
+        <div class="notes-container">
+            <div class="notes-header">
+                <h2>📚 과목별 노트</h2>
+                <input type="text" class="search-bar" placeholder="노트 검색..." id="searchInput" oninput="searchNotes()">
+                <button class="new-note-btn" onclick="createNewNote()">+ 새 노트</button>
+            </div>
+
+            <div class="stats" id="notesStats">
+                전체 노트: 0개
+            </div>
+
+            <div class="subject-tabs">
+                <div class="subject-tab active" data-subject="all" onclick="filterBySubject('all')">전체</div>
+                <div class="subject-tab" data-subject="korean" onclick="filterBySubject('korean')">국어</div>
+                <div class="subject-tab" data-subject="english" onclick="filterBySubject('english')">영어</div>
+                <div class="subject-tab" data-subject="math" onclick="filterBySubject('math')">수학</div>
+                <div class="subject-tab" data-subject="science" onclick="filterBySubject('science')">과학</div>
+                <div class="subject-tab" data-subject="social" onclick="filterBySubject('social')">사회</div>
+                <div class="subject-tab" data-subject="tech" onclick="filterBySubject('tech')">기술/가정</div>
+                <div class="subject-tab" data-subject="language" onclick="filterBySubject('language')">제2외국어</div>
+            </div>
+
+            <div class="notes-grid" id="notesGrid">
+                <!-- 노트 카드들이 여기에 표시됩니다 -->
+            </div>
+
+            <!-- 노트 편집기 -->
+            <div class="note-editor" id="noteEditor">
+                <div class="editor-header">
+                    <input type="text" class="note-title-input" id="noteTitleInput" placeholder="노트 제목을 입력하세요">
+                    <select id="noteSubjectSelect">
+                        <option value="korean">국어</option>
+                        <option value="english">영어</option>
+                        <option value="math">수학</option>
+                        <option value="science">과학</option>
+                        <option value="social">사회</option>
+                        <option value="tech">기술/가정</option>
+                        <option value="language">제2외국어</option>
+                    </select>
                 </div>
-                <div class="tool-card" onclick="showPage('notes')">
-                    <h3>📚 과목별 노트</h3>
-                    <p>과목별로 체계적인 노트 관리하기</p>
-                </div>
-                <div class="tool-card" onclick="showPage('dday')">
-                    <h3>⏰ D-DAY 카운터</h3>
-                    <p>여러 시험과 일정의 D-DAY 관리하기</p>
-                </div>
-                <div class="tool-card" onclick="showTool('planner')">
-                    <h3>📊 성적 계산기</h3>
-                    <p>내신 등급과 평균 점수 계산하기 (준비중)</p>
+                <textarea class="note-content-input" id="noteContentInput" placeholder="노트 내용을 입력하세요..."></textarea>
+                <div class="editor-actions">
+                    <button class="save-note-btn" onclick="saveCurrentNote()">저장</button>
+                    <button class="delete-note-btn" onclick="deleteCurrentNote()">삭제</button>
+                    <button class="close-editor-btn" onclick="closeNoteEditor()">닫기</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- 시간표 제작 도구 -->
-        <div class="page" id="timetable">
-            <button class="back-btn" onclick="showPage('toolsMenu')">← 도구 메뉴로</button>
-            <h2>📅 시간표 만들기</h2>
-            
-            <div class="timetable-controls">
-                <div class="design-toggle">
-                    <button class="design-btn active" onclick="changeDesign('simple')">심플</button>
-                    <button class="design-btn" onclick="changeDesign('pretty')">예쁜</button>
-                </div>
-                <div class="color-picker-container">
-                    <label for="colorPicker">테마 색상:</label>
-                    <input type="color" id="colorPicker" value="#4a5568" onchange="changeTableColor()">
-                </div>
-                <button class="action-btn clear-btn" onclick="clearTimetable()">전체 지우기</button>
-                <button class="action-btn print-btn" onclick="printTimetable()">프린트하기</button>
-                <button class="action-btn save-btn" onclick="saveTimetable()">저장하기</button>
-                <button class="action-btn load-btn" onclick="loadTimetable()">불러오기</button>
-                <input type="file" id="fileInput" style="display: none;" accept=".json" onchange="handleFileLoad(event)">
+    <!-- D-DAY 카운터 도구 -->
+    <div class="page" id="dday">
+        <button class="back-btn" onclick="showPage('toolsMenu')">← 도구 메뉴로</button>
+        <div class="dday-container">
+            <div class="dday-header">
+                <h2>⏰ D-DAY 카운터</h2>
+                <button class="new-dday-btn" onclick="addNewDday()">+ 새 일정 추가</button>
             </div>
 
-            <div class="simple-design" id="timetableContainer">
-                <table class="timetable" id="timetableTable">
-                    <thead>
-                        <tr>
-                            <th>월</th>
-                            <th>화</th>
-                            <th>수</th>
-                            <th>목</th>
-                            <th>금</th>
-                        </tr>
-                    </thead>
-                    <tbody id="timetableBody"></tbody>
-                </table>
+            <div class="dday-stats" id="ddayStats">
+                전체 일정: 0개
             </div>
-        </div>
 
-        <!-- 과목별 노트 도구 -->
-        <div class="page" id="notes">
-            <button class="back-btn" onclick="showPage('toolsMenu')">← 도구 메뉴로</button>
-            <div class="notes-container">
-                <div class="notes-header">
-                    <h2>📚 과목별 노트</h2>
-                    <input type="text" class="search-bar" placeholder="노트 검색..." id="searchInput" oninput="searchNotes()">
-                    <button class="new-note-btn" onclick="createNewNote()">+ 새 노트</button>
-                </div>
+            <div class="dday-grid" id="ddayGrid">
+                <!-- D-DAY 카드들이 여기에 표시됩니다 -->
+            </div>
 
-                <div class="stats" id="notesStats">
-                    전체 노트: 0개
-                </div>
-
-                <div class="subject-tabs">
-                    <div class="subject-tab active" data-subject="all" onclick="filterBySubject('all')">전체</div>
-                    <div class="subject-tab" data-subject="korean" onclick="filterBySubject('korean')">국어</div>
-                    <div class="subject-tab" data-subject="english" onclick="filterBySubject('english')">영어</div>
-                    <div class="subject-tab" data-subject="math" onclick="filterBySubject('math')">수학</div>
-                    <div class="subject-tab" data-subject="science" onclick="filterBySubject('science')">과학</div>
-                    <div class="subject-tab" data-subject="social" onclick="filterBySubject('social')">사회</div>
-                    <div class="subject-tab" data-subject="tech" onclick="filterBySubject('tech')">기술/가정</div>
-                    <div class="subject-tab" data-subject="language" onclick="filterBySubject('language')">제2외국어</div>
-                </div>
-
-                <div class="notes-grid" id="notesGrid">
-                    <!-- 노트 카드들이 여기에 표시됩니다 -->
-                </div>
-
-                <!-- 노트 편집기 -->
-                <div class="note-editor" id="noteEditor">
-                    <div class="editor-header">
-                        <input type="text" class="note-title-input" id="noteTitleInput" placeholder="노트 제목을 입력하세요">
-                        <select id="noteSubjectSelect">
-                            <option value="korean">국어</option>
-                            <option value="english">영어</option>
-                            <option value="math">수학</option>
-                            <option value="science">과학</option>
-                            <option value="social">사회</option>
-                            <option value="tech">기술/가정</option>
-                            <option value="language">제2외국어</option>
-                        </select>
+            <!-- D-DAY 편집 모달 -->
+            <div class="dday-modal" id="ddayModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>일정 편집</h3>
+                        <button class="close-modal-btn" onclick="closeDdayModal()">×</button>
                     </div>
-                    <textarea class="note-content-input" id="noteContentInput" placeholder="노트 내용을 입력하세요..."></textarea>
-                    <div class="editor-actions">
-                        <button class="save-note-btn" onclick="saveCurrentNote()">저장</button>
-                        <button class="delete-note-btn" onclick="deleteCurrentNote()">삭제</button>
-                        <button class="close-editor-btn" onclick="closeNoteEditor()">닫기</button>
+                    <div class="modal-body">
+                        <div class="input-group">
+                            <label>일정 이름:</label>
+                            <input type="text" id="ddayTitleInput" placeholder="예: 중간고사, 수학 시험">
+                        </div>
+                        <div class="input-group">
+                            <label>날짜:</label>
+                            <input type="date" id="ddayDateInput">
+                        </div>
+                        <div class="input-group">
+                            <label>카테고리:</label>
+                            <select id="ddayCategorySelect">
+                                <option value="exam">시험</option>
+                                <option value="assignment">과제</option>
+                                <option value="event">행사</option>
+                                <option value="vacation">방학</option>
+                                <option value="other">기타</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>메모:</label>
+                            <textarea id="ddayMemoInput" placeholder="추가 메모사항..."></textarea>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- D-DAY 카운터 도구 -->
-        <div class="page" id="dday">
-            <button class="back-btn" onclick="showPage('toolsMenu')">← 도구 메뉴로</button>
-            <div class="dday-container">
-                <div class="dday-header">
-                    <h2>⏰ D-DAY 카운터</h2>
-                    <button class="new-dday-btn" onclick="addNewDday()">+ 새 일정 추가</button>
-                </div>
-
-                <div class="dday-stats" id="ddayStats">
-                    전체 일정: 0개
-                </div>
-
-                <div class="dday-grid" id="ddayGrid">
-                    <!-- D-DAY 카드들이 여기에 표시됩니다 -->
-                </div>
-
-                <!-- D-DAY 편집 모달 -->
-                <div class="dday-modal" id="ddayModal">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3>일정 편집</h3>
-                            <button class="close-modal-btn" onclick="closeDdayModal()">×</button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="input-group">
-                                <label>일정 이름:</label>
-                                <input type="text" id="ddayTitleInput" placeholder="예: 중간고사, 수학 시험">
-                            </div>
-                            <div class="input-group">
-                                <label>날짜:</label>
-                                <input type="date" id="ddayDateInput">
-                            </div>
-                            <div class="input-group">
-                                <label>카테고리:</label>
-                                <select id="ddayCategorySelect">
-                                    <option value="exam">시험</option>
-                                    <option value="assignment">과제</option>
-                                    <option value="event">행사</option>
-                                    <option value="vacation">방학</option>
-                                    <option value="other">기타</option>
-                                </select>
-                            </div>
-                            <div class="input-group">
-                                <label>메모:</label>
-                                <textarea id="ddayMemoInput" placeholder="추가 메모사항..."></textarea>
-                            </div>
-                        </div>
-                        <div class="modal-actions">
-                            <button class="save-dday-btn" onclick="saveDday()">저장</button>
-                            <button class="delete-dday-btn" onclick="deleteDday()" id="deleteDdayBtn" style="display: none;">삭제</button>
-                            <button class="cancel-btn" onclick="closeDdayModal()">취소</button>
-                        </div>
+                    <div class="modal-actions">
+                        <button class="save-dday-btn" onclick="saveDday()">저장</button>
+                        <button class="delete-dday-btn" onclick="deleteDday()" id="deleteDdayBtn" style="display: none;">삭제</button>
+                        <button class="cancel-btn" onclick="closeDdayModal()">취소</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        // 페이지 전환
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            document.getElementById(pageId).classList.add('active');
-            
-            if (pageId === 'timetable') {
-                createTimetable();
-            } else if (pageId === 'notes') {
-                displayNotes();
-                updateNotesStats();
-            } else if (pageId === 'dday') {
-                displayDdays();
-                updateDdayStats();
-            }
-        }
-
-        // 시간표 생성 (월~금, 1~8교시)
-        function createTimetable() {
-            const tbody = document.getElementById('timetableBody');
-            tbody.innerHTML = '';
-
-            for (let period = 1; period <= 8; period++) {
-                const row = document.createElement('tr');
-                for (let day = 0; day < 5; day++) {
-                    const cell = document.createElement('td');
-                    const input = document.createElement('input');
-                    input.type = 'text';
-                    input.id = `cell-${period}-${day}`;
-                    cell.appendChild(input);
-                    row.appendChild(cell);
-                }
-                tbody.appendChild(row);
-            }
-        }
-
-        // 디자인 변경
-        function changeDesign(design) {
-            const container = document.getElementById('timetableContainer');
-            const buttons = document.querySelectorAll('.design-btn');
-            
-            buttons.forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`[onclick="changeDesign('${design}')"]`).classList.add('active');
-            
-            container.className = design + '-design';
-        }
-
-        // 시간표 색상 변경
-        function changeTableColor() {
-            const color = document.getElementById('colorPicker').value;
-            const style = document.createElement('style');
-            style.innerHTML = `
-                .simple-design .timetable th {
-                    background: ${color} !important;
-                    color: white !important;
-                }
-                .pretty-design .timetable th {
-                    background: linear-gradient(135deg, ${color}40, ${color}80) !important;
-                    color: #2d3748 !important;
-                }
-            `;
-            document.head.appendChild(style);
-        }
-
-        // 시간표 기능들
-        function clearTimetable() {
-            if (confirm('정말로 모든 내용을 지우시겠습니까?')) {
-                document.querySelectorAll('#timetableTable input').forEach(input => {
-                    input.value = '';
-                });
-            }
-        }
-
-        function printTimetable() {
-            window.print();
-        }
-
-        function saveTimetable() {
-            const data = {};
-            document.querySelectorAll('#timetableTable input').forEach(input => {
-                data[input.id] = input.value;
-            });
-            
-            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = '시간표.json';
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        function loadTimetable() {
-            document.getElementById('fileInput').click();
-        }
-
-        function handleFileLoad(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    Object.entries(data).forEach(([id, value]) => {
-                        const input = document.getElementById(id);
-                        if (input) input.value = value;
-                    });
-                    alert('시간표를 불러왔습니다!');
-                } catch (error) {
-                    alert('파일을 읽는 중 오류가 발생했습니다.');
-                }
-            };
-            reader.readAsText(file);
-        }
-
-        // 노트 관리 시스템
-        let notes = {}; // 모든 노트 저장
-        let currentNoteId = null;
-        let currentSubject = 'all';
-        const subjectNames = {
-            'korean': '국어',
-            'english': '영어', 
-            'math': '수학',
-            'science': '과학',
-            'social': '사회',
-            'tech': '기술/가정',
-            'language': '제2외국어'
-        };
-
-        // 새 노트 생성
-        function createNewNote() {
-            const noteId = 'note_' + Date.now();
-            const newNote = {
-                id: noteId,
-                title: '제목 없음',
-                content: '',
-                subject: currentSubject === 'all' ? 'korean' : currentSubject,
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-            };
-            
-            notes[noteId] = newNote;
-            openNoteEditor(noteId);
-            displayNotes();
-            updateNotesStats();
-        }
-
-        // 노트 편집기 열기
-        function openNoteEditor(noteId) {
-            currentNoteId = noteId;
-            const note = notes[noteId];
-            
-            document.getElementById('noteTitleInput').value = note.title;
-            document.getElementById('noteContentInput').value = note.content;
-            document.getElementById('noteSubjectSelect').value = note.subject;
-            document.getElementById('noteEditor').classList.add('active');
-            
-            // 자동 저장 설정
-            clearTimeout(window.autoSaveTimeout);
-            document.getElementById('noteTitleInput').oninput = autoSave;
-            document.getElementById('noteContentInput').oninput = autoSave;
-            document.getElementById('noteSubjectSelect').onchange = autoSave;
-        }
-
-        // 자동 저장
-        function autoSave() {
-            clearTimeout(window.autoSaveTimeout);
-            window.autoSaveTimeout = setTimeout(() => {
-                if (currentNoteId) {
-                    saveCurrentNote(false);
-                }
-            }, 1000);
-        }
-
-        // 현재 노트 저장
-        function saveCurrentNote(showAlert = true) {
-            if (!currentNoteId) return;
-            
-            const note = notes[currentNoteId];
-            note.title = document.getElementById('noteTitleInput').value || '제목 없음';
-            note.content = document.getElementById('noteContentInput').value;
-            note.subject = document.getElementById('noteSubjectSelect').value;
-            note.updatedAt = new Date().toISOString();
-            
-            if (showAlert) {
-                alert('노트가 저장되었습니다!');
-            }
-            
-            displayNotes();
-            updateNotesStats();
-        }
-
-        // 현재 노트 삭제
-        function deleteCurrentNote() {
-            if (!currentNoteId || !confirm('정말로 이 노트를 삭제하시겠습니까?')) return;
-            
-            delete notes[currentNoteId];
-            closeNoteEditor();
-            displayNotes();
-            updateNotesStats();
-        }
-
-        // 노트 편집기 닫기
-        function closeNoteEditor() {
-            document.getElementById('noteEditor').classList.remove('active');
-            currentNoteId = null;
-            clearTimeout(window.autoSaveTimeout);
-        }
-
-        // 과목별 필터
-        function filterBySubject(subject) {
-            currentSubject = subject;
-            
-            // 탭 활성화
-            document.querySelectorAll('.subject-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelector(`[data-subject="${subject}"]`).classList.add('active');
-            
-            displayNotes();
-            updateNotesStats();
-        }
-
-        // 노트 검색
-        function searchNotes() {
-            displayNotes();
-        }
-
-        // 노트 표시
-        function displayNotes() {
-            const grid = document.getElementById('notesGrid');
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            
-            let filteredNotes = Object.values(notes);
-            
-            // 과목 필터
-            if (currentSubject !== 'all') {
-                filteredNotes = filteredNotes.filter(note => note.subject === currentSubject);
-            }
-            
-            // 검색 필터
-            if (searchTerm) {
-                filteredNotes = filteredNotes.filter(note => 
-                    note.title.toLowerCase().includes(searchTerm) ||
-                    note.content.toLowerCase().includes(searchTerm)
-                );
-            }
-            
-            // 최신순 정렬
-            filteredNotes.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-            
-            grid.innerHTML = '';
-            
-            if (filteredNotes.length === 0) {
-                grid.innerHTML = '<p style="text-align: center; color: #718096; padding: 40px;">노트가 없습니다. 새 노트를 만들어보세요!</p>';
-                return;
-            }
-            
-            filteredNotes.forEach(note => {
-                const card = document.createElement('div');
-                card.className = 'note-card';
-                card.onclick = () => openNoteEditor(note.id);
-                
-                const preview = note.content.substring(0, 100) + (note.content.length > 100 ? '...' : '');
-                const updatedDate = new Date(note.updatedAt).toLocaleDateString('ko-KR');
-                
-                card.innerHTML = `
-                    <div class="note-title">${note.title}</div>
-                    <div class="note-preview">${preview || '내용이 없습니다.'}</div>
-                    <div class="note-meta">
-                        <span>${subjectNames[note.subject]}</span>
-                        <span>${updatedDate}</span>
+    <!-- 학급 도우미 -->
+    <div class="page" id="classhelper">
+        <button class="back-btn" onclick="showPage('toolsMenu')">← 도구 메뉴로</button>
+        <h2>👥 학급 도우미</h2>
+        
+        <div class="helper-tools">
+            <!-- 자리 배치 -->
+            <div class="helper-section">
+                <h3>🪑 자리 배치</h3>
+                <div class="seating-controls">
+                    <div class="input-row">
+                        <label>행 수:</label>
+                        <input type="number" id="seatingRows" value="6" min="3" max="8">
+                        <label>열 수:</label>
+                        <input type="number" id="seatingCols" value="6" min="3" max="8">
                     </div>
-                `;
-                
-                grid.appendChild(card);
-            });
-        }
+                    <div class="input-row">
+                        <label>학생 이름 (줄바꿈으로 구분):</label>
+                        <textarea id="studentNames" placeholder="김철수&#10;이영희&#10;박민수&#10;..."></textarea>
+                    </div>
+                    <button class="helper-btn" onclick="generateSeating()">자리 배치하기</button>
+                    <button class="helper-btn secondary" onclick="shuffleSeating()">다시 섞기</button>
+                </div>
+                <div class="seating-chart" id="seatingChart"></div>
+            </div>
 
-        // 통계 업데이트
-        function updateNotesStats() {
-            const totalNotes = Object.keys(notes).length;
-            let subjectNotes = totalNotes;
+            <!-- 무작위 숫자 -->
+            <div class="helper-section">
+                <h3>🎲 무작위 숫자</h3>
+                <div class="random-controls">
+                    <div class="input-row">
+                        <label>시작 번호:</label>
+                        <input type="number" id="startNumber" value="1">
+                        <label>끝 번호:</label>
+                        <input type="number" id="endNumber" value="30">
+                        <label>뽑을 개수:</label>
+                        <input type="number" id="numberCount" value="1" min="1">
+                    </div>
+                    <div class="checkbox-row">
+                        <label>
+                            <input type="checkbox" id="allowDuplicateNumbers">
+                            중복 허용
+                        </label>
+                    </div>
+                    <button class="helper-btn" onclick="generateRandomNumbers()">숫자 뽑기</button>
+                </div>
+                <div class="random-result" id="numberResult"></div>
+            </div>
+
+            <!-- 무작위 이름 -->
+            <div class="helper-section">
+                <h3>👤 무작위 이름</h3>
+                <div class="random-controls">
+                    <div class="input-row">
+                        <label>이름 목록 (줄바꿈으로 구분):</label>
+                        <textarea id="nameList" placeholder="김철수&#10;이영희&#10;박민수&#10;..."></textarea>
+                    </div>
+                    <div class="input-row">
+                        <label>뽑을 개수:</label>
+                        <input type="number" id="nameCount" value="1" min="1">
+                    </div>
+                    <div class="checkbox-row">
+                        <label>
+                            <input type="checkbox" id="allowDuplicateNames">
+                            중복 허용
+                        </label>
+                    </div>
+                    <button class="helper-btn" onclick="generateRandomNames()">이름 뽑기</button>
+                </div>
+                <div class="random-result" id="nameResult"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 공부 타이머 -->
+    <div class="page" id="studytimer">
+        <button class="back-btn" onclick="showPage('toolsMenu')">← 도구 메뉴로</button>
+        <h2>⏱️ 공부 타이머</h2>
+        
+        <div class="timer-container">
+            <div class="timer-display" id="timerDisplay">25:00</div>
+            <div class="timer-status" id="timerStatus">공부 시간</div>
             
-            if (currentSubject !== 'all') {
-                subjectNotes = Object.values(notes).filter(note => note.subject === currentSubject).length;
-            }
-            
-            const statsText = currentSubject === 'all' 
-                ? `전체 노트: ${totalNotes}개`
-                : `${subjectNames[currentSubject]} 노트: ${subjectNotes}개 (전체: ${totalNotes}개)`;
-                
-            document.getElementById('notesStats').textContent = statsText;
-        }
+            <div class="timer-controls">
+                <button class="timer-btn start" id="startBtn" onclick="startTimer()">시작</button>
+                <button class="timer-btn pause" id="pauseBtn" onclick="pauseTimer()" style="display: none;">일시정지</button>
+                <button class="timer-btn reset" onclick="resetTimer()">리셋</button>
+            </div>
 
-        // D-DAY 관리 시스템
-        let ddays = {}; // 모든 D-DAY 저장
-        let currentDdayId = null;
-        const categoryNames = {
-            'exam': '시험',
-            'assignment': '과제',
-            'event': '행사',
-            'vacation': '방학',
-            'other': '기타'
-        };
+            <div class="timer-settings">
+                <div class="setting-row">
+                    <label>공부 시간 (분):</label>
+                    <input type="number" id="studyMinutes" value="25" min="1" max="120">
+                </div>
+                <div class="setting-row">
+                    <label>휴식 시간 (분):</label>
+                    <input type="number" id="breakMinutes" value="5" min="1" max="30">
+                </div>
+                <div class="setting-row">
+                    <label>현재 과목:</label>
+                    <select id="currentSubject">
+                        <option value="korean">국어</option>
+                        <option value="english">영어</option>
+                        <option value="math">수학</option>
+                        <option value="science">과학</option>
+                        <option value="social">사회</option>
+                        <option value="tech">기술/가정</option>
+                        <option value="language">제2외국어</option>
+                        <option value="other">기타</option>
+                    </select>
+                </div>
+            </div>
 
-        // 새 D-DAY 추가
-        function addNewDday() {
-            currentDdayId = null;
-            document.getElementById('ddayTitleInput').value = '';
-            document.getElementById('ddayDateInput').value = '';
-            document.getElementById('ddayCategorySelect').value = 'exam';
-            document.getElementById('ddayMemoInput').value = '';
-            document.getElementById('deleteDdayBtn').style.display = 'none';
-            document.getElementById('ddayModal').classList.add('active');
-        }
+            <div class="timer-stats" id="timerStats">
+                <h3>오늘의 공부 기록</h3>
+                <div class="stats-list" id="statsList"></div>
+            </div>
+        </div>
+    </div>
 
-        // D-DAY 편집
-        function editDday(ddayId) {
-            currentDdayId = ddayId;
-            const dday = ddays[ddayId];
-            
-            document.getElementById('ddayTitleInput').value = dday.title;
-            document.getElementById('ddayDateInput').value = dday.date;
-            document.getElementById('ddayCategorySelect').value = dday.category;
-            document.getElementById('ddayMemoInput').value = dday.memo || '';
-            document.getElementById('deleteDdayBtn').style.display = 'block';
-            document.getElementById('ddayModal').classList.add('active');
-        }
+    <!-- 숙제 관리 -->
+    <div class="page" id="homework">
+        <button class="back-btn" onclick="showPage('toolsMenu')">← 도구 메뉴로</button>
+        <div class="homework-container">
+            <div class="homework-header">
+                <h2>📝 숙제 관리</h2>
+                <button class="new-homework-btn" onclick="addNewHomework()">+ 새 숙제 추가</button>
+            </div>
 
-        // D-DAY 저장
-        function saveDday() {
-            const title = document.getElementById('ddayTitleInput').value.trim();
-            const date = document.getElementById('ddayDateInput').value;
-            const category = document.getElementById('ddayCategorySelect').value;
-            const memo = document.getElementById('ddayMemoInput').value.trim();
+            <div class="homework-stats" id="homeworkStats">
+                전체 숙제: 0개 | 완료: 0개 | 미완료: 0개
+            </div>
 
-            if (!title || !date) {
-                alert('제목과 날짜를 입력해주세요!');
-                return;
-            }
+            <div class="homework-filters">
+                <button class="filter-btn active" data-filter="all" onclick="filterHomework('all')">전체</button>
+                <button class="filter-btn" data-filter="pending" onclick="filterHomework('pending')">미완료</button>
+                <button class="filter-btn" data-filter="completed" onclick="filterHomework('completed')">완료</button>
+                <button class="filter-btn" data-filter="urgent" onclick="filterHomework('urgent')">급함</button>
+            </div>
 
-            const ddayId = currentDdayId || 'dday_' + Date.now();
-            
-            ddays[ddayId] = {
-                id: ddayId,
-                title: title,
-                date: date,
-                category: category,
-                memo: memo,
-                createdAt: ddays[ddayId]?.createdAt || new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-            };
+            <div class="homework-list" id="homeworkList"></div>
 
-            closeDdayModal();
-            displayDdays();
-            updateDdayStats();
-        }
+            <!-- 숙제 편집 모달 -->
+            <div class="homework-modal" id="homeworkModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>숙제 편집</h3>
+                        <button class="close-modal-btn" onclick="closeHomeworkModal()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group">
+                            <label>숙제 제목:</label>
+                            <input type="text" id="homeworkTitleInput" placeholder="예: 수학 문제집 p.24-25">
+                        </div>
+                        <div class="input-group">
+                            <label>과목:</label>
+                            <select id="homeworkSubjectSelect">
+                                <option value="korean">국어</option>
+                                <option value="english">영어</option>
+                                <option value="math">수학</option>
+                                <option value="science">과학</option>
+                                <option value="social">사회</option>
+                                <option value="tech">기술/가정</option>
+                                <option value="language">제2외국어</option>
+                                <option value="other">기타</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>마감일:</label>
+                            <input type="date" id="homeworkDateInput">
+                        </div>
+                        <div class="input-group">
+                            <label>우선순위:</label>
+                            <select id="homeworkPrioritySelect">
+                                <option value="low">여유</option>
+                                <option value="medium">보통</option>
+                                <option value="high">급함</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>세부 내용:</label>
+                            <textarea id="homeworkDetailsInput" placeholder="추가 설명이나 메모..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="save-homework-btn" onclick="saveHomework()">저장</button>
+                        <button class="delete-homework-btn" onclick="deleteHomework()" id="deleteHomeworkBtn" style="display: none;">삭제</button>
+                        <button class="cancel-btn" onclick="closeHomeworkModal()">취소</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-        // D-DAY 삭제
-        function deleteDday() {
-            if (!currentDdayId || !confirm('정말로 이 일정을 삭제하시겠습니까?')) return;
-            
-            delete ddays[currentDdayId];
-            closeDdayModal();
-            displayDdays();
-            updateDdayStats();
-        }
-
-        // 모달 닫기
-        function closeDdayModal() {
-            document.getElementById('ddayModal').classList.remove('active');
-            currentDdayId = null;
-        }
-
-        // D-DAY 계산
-        function calculateDday(targetDate) {
-            const today = new Date();
-            const target = new Date(targetDate);
-            const diffTime = target - today;
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            return diffDays;
-        }
-
-        // D-DAY 표시
-        function displayDdays() {
-            const grid = document.getElementById('ddayGrid');
-            const ddayList = Object.values(ddays);
-            
-            // 날짜순 정렬 (가까운 순)
-            ddayList.sort((a, b) => new Date(a.date) - new Date(b.date));
-            
-            grid.innerHTML = '';
-            
-            if (ddayList.length === 0) {
-                grid.innerHTML = '<p style="text-align: center; color: #718096; padding: 40px;">등록된 일정이 없습니다. 새 일정을 추가해보세요!</p>';
-                return;
-            }
-
-            ddayList.forEach(dday => {
-                const daysLeft = calculateDday(dday.date);
-                const card = document.createElement('div');
-                card.className = 'dday-card';
-                card.onclick = () => editDday(dday.id);
-
-                let ddayText, ddayClass;
-                if (daysLeft === 0) {
-                    ddayText = 'D-DAY';
-                    ddayClass = 'dday-today';
-                } else if (daysLeft > 0) {
-                    ddayText = `D-${daysLeft}`;
-                    ddayClass = daysLeft <= 7 ? 'dday-soon' : 'dday-normal';
-                } else {
-                    ddayText = `D+${Math.abs(daysLeft)}`;
-                    ddayClass = 'dday-passed';
-                }
-
-                const formattedDate = new Date(dday.date).toLocaleDateString('ko-KR');
-
-                card.innerHTML = `
-                    <div class="dday-number ${ddayClass}">${ddayText}</div>
-                    <div class="dday-title">${dday.title}</div>
-                    <div class="dday-date">${formattedDate}</div>
-                    <div class="dday-category category-${dday.category}">${categoryNames[dday.category]}</div>
-                    ${dday.memo ? `<div class="dday-memo">${dday.memo}</div>` : ''}
-                `;
-
-                grid.appendChild(card);
-            });
-        }
-
-        // D-DAY 통계 업데이트
-        function updateDdayStats() {
-            const totalDdays = Object.keys(ddays).length;
-            const todayDdays = Object.values(ddays).filter(dday => calculateDday(dday.date) === 0).length;
-            const soonDdays = Object.values(ddays).filter(dday => {
-                const days = calculateDday(dday.date);
-                return days > 0 && days <= 7;
-            }).length;
-
-            let statsText = `전체 일정: ${totalDdays}개`;
-            if (todayDdays > 0) statsText += ` | 오늘: ${todayDdays}개`;
-            if (soonDdays > 0) statsText += ` | 일주일 내: ${soonDdays}개`;
-
-            document.getElementById('ddayStats').textContent = statsText;
-        }
-
-        // 페이지 로드 시 시간표 생성
-        window.onload = function() {
+<script>
+    // 페이지 전환
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active');
+        });
+        document.getElementById(pageId).classList.add('active');
+        
+        if (pageId === 'timetable') {
             createTimetable();
+        } else if (pageId === 'notes') {
+            displayNotes();
+            updateNotesStats();
+        } else if (pageId === 'dday') {
+            displayDdays();
+            updateDdayStats();
+        } else if (pageId === 'studytimer') {
+            updateTimerStats();
+        } else if (pageId === 'homework') {
+            displayHomework();
+            updateHomeworkStats();
+        }
+    }
+
+    // 시간표 생성 (월~금, 1~8교시)
+    function createTimetable() {
+        const tbody = document.getElementById('timetableBody');
+        tbody.innerHTML = '';
+
+        for (let period = 1; period <= 8; period++) {
+            const row = document.createElement('tr');
+            for (let day = 0; day < 5; day++) {
+                const cell = document.createElement('td');
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.id = `cell-${period}-${day}`;
+                cell.appendChild(input);
+                row.appendChild(cell);
+            }
+            tbody.appendChild(row);
+        }
+    }
+
+    // 디자인 변경
+    function changeDesign(design) {
+        const container = document.getElementById('timetableContainer');
+        const buttons = document.querySelectorAll('.design-btn');
+        
+        buttons.forEach(btn => btn.classList.remove('active'));
+        document.querySelector(`[onclick="changeDesign('${design}')"]`).classList.add('active');
+        
+        container.className = design + '-design';
+    }
+
+    // 시간표 색상 변경
+    function changeTableColor() {
+        const color = document.getElementById('colorPicker').value;
+        const style = document.createElement('style');
+        style.innerHTML = `
+            .simple-design .timetable th {
+                background: ${color} !important;
+                color: white !important;
+            }
+            .pretty-design .timetable th {
+                background: linear-gradient(135deg, ${color}40, ${color}80) !important;
+                color: #2d3748 !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // 시간표 기능들
+    function clearTimetable() {
+        if (confirm('정말로 모든 내용을 지우시겠습니까?')) {
+            document.querySelectorAll('#timetableTable input').forEach(input => {
+                input.value = '';
+            });
+        }
+    }
+
+    function printTimetable() {
+        window.print();
+    }
+
+    function saveTimetable() {
+        const data = {};
+        document.querySelectorAll('#timetableTable input').forEach(input => {
+            data[input.id] = input.value;
+        });
+        
+        const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = '시간표.json';
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    function loadTimetable() {
+        document.getElementById('fileInput').click();
+    }
+
+    function handleFileLoad(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const data = JSON.parse(e.target.result);
+                Object.entries(data).forEach(([id, value]) => {
+                    const input = document.getElementById(id);
+                    if (input) input.value = value;
+                });
+                alert('시간표를 불러왔습니다!');
+            } catch (error) {
+                alert('파일을 읽는 중 오류가 발생했습니다.');
+            }
         };
-    </script>
+        reader.readAsText(file);
+    }
+
+    // 노트 관리 시스템
+    let notes = {}; // 모든 노트 저장
+    let currentNoteId = null;
+    let currentSubject = 'all';
+    const subjectNames = {
+        'korean': '국어',
+        'english': '영어', 
+        'math': '수학',
+        'science': '과학',
+        'social': '사회',
+        'tech': '기술/가정',
+        'language': '제2외국어'
+    };
+
+    // 새 노트 생성
+    function createNewNote() {
+        const noteId = 'note_' + Date.now();
+        const newNote = {
+            id: noteId,
+            title: '제목 없음',
+            content: '',
+            subject: currentSubject === 'all' ? 'korean' : currentSubject,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+        
+        notes[noteId] = newNote;
+        openNoteEditor(noteId);
+        displayNotes();
+        updateNotesStats();
+    }
+
+    // 노트 편집기 열기
+    function openNoteEditor(noteId) {
+        currentNoteId = noteId;
+        const note = notes[noteId];
+        
+        document.getElementById('noteTitleInput').value = note.title;
+        document.getElementById('noteContentInput').value = note.content;
+        document.getElementById('noteSubjectSelect').value = note.subject;
+        document.getElementById('noteEditor').classList.add('active');
+        
+        // 자동 저장 설정
+        clearTimeout(window.autoSaveTimeout);
+        document.getElementById('noteTitleInput').oninput = autoSave;
+        document.getElementById('noteContentInput').oninput = autoSave;
+        document.getElementById('noteSubjectSelect').onchange = autoSave;
+    }
+
+    // 자동 저장
+    function autoSave() {
+        clearTimeout(window.autoSaveTimeout);
+        window.autoSaveTimeout = setTimeout(() => {
+            if (currentNoteId) {
+                saveCurrentNote(false);
+            }
+        }, 1000);
+    }
+
+    // 현재 노트 저장
+    function saveCurrentNote(showAlert = true) {
+        if (!currentNoteId) return;
+        
+        const note = notes[currentNoteId];
+        note.title = document.getElementById('noteTitleInput').value || '제목 없음';
+        note.content = document.getElementById('noteContentInput').value;
+        note.subject = document.getElementById('noteSubjectSelect').value;
+        note.updatedAt = new Date().toISOString();
+        
+        if (showAlert) {
+            alert('노트가 저장되었습니다!');
+        }
+        
+        displayNotes();
+        updateNotesStats();
+    }
+
+    // 현재 노트 삭제
+    function deleteCurrentNote() {
+        if (!currentNoteId || !confirm('정말로 이 노트를 삭제하시겠습니까?')) return;
+        
+        delete notes[currentNoteId];
+        closeNoteEditor();
+        displayNotes();
+        updateNotesStats();
+    }
+
+    // 노트 편집기 닫기
+    function closeNoteEditor() {
+        document.getElementById('noteEditor').classList.remove('active');
+        currentNoteId = null;
+        clearTimeout(window.autoSaveTimeout);
+    }
+
+    // 과목별 필터
+    function filterBySubject(subject) {
+        currentSubject = subject;
+        
+        // 탭 활성화
+        document.querySelectorAll('.subject-tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.querySelector(`[data-subject="${subject}"]`).classList.add('active');
+        
+        displayNotes();
+        updateNotesStats();
+    }
+
+    // 노트 검색
+    function searchNotes() {
+        displayNotes();
+    }
+
+    // 노트 표시
+    function displayNotes() {
+        const grid = document.getElementById('notesGrid');
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        
+        let filteredNotes = Object.values(notes);
+        
+        // 과목 필터
+        if (currentSubject !== 'all') {
+            filteredNotes = filteredNotes.filter(note => note.subject === currentSubject);
+        }
+        
+        // 검색 필터
+        if (searchTerm) {
+            filteredNotes = filteredNotes.filter(note => 
+                note.title.toLowerCase().includes(searchTerm) ||
+                note.content.toLowerCase().includes(searchTerm)
+            );
+        }
+        
+        // 최신순 정렬
+        filteredNotes.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+        
+        grid.innerHTML = '';
+        
+        if (filteredNotes.length === 0) {
+            grid.innerHTML = '<p style="text-align: center; color: #718096; padding: 40px;">노트가 없습니다. 새 노트를 만들어보세요!</p>';
+            return;
+        }
+        
+        filteredNotes.forEach(note => {
+            const card = document.createElement('div');
+            card.className = 'note-card';
+            card.onclick = () => openNoteEditor(note.id);
+            
+            const preview = note.content.substring(0, 100) + (note.content.length > 100 ? '...' : '');
+            const updatedDate = new Date(note.updatedAt).toLocaleDateString('ko-KR');
+            
+            card.innerHTML = `
+                <div class="note-title">${note.title}</div>
+                <div class="note-preview">${preview || '내용이 없습니다.'}</div>
+                <div class="note-meta">
+                    <span>${subjectNames[note.subject]}</span>
+                    <span>${updatedDate}</span>
+                </div>
+            `;
+            
+            grid.appendChild(card);
+        });
+    }
+
+    // 통계 업데이트
+    function updateNotesStats() {
+        const totalNotes = Object.keys(notes).length;
+        let subjectNotes = totalNotes;
+        
+        if (currentSubject !== 'all') {
+            subjectNotes = Object.values(notes).filter(note => note.subject === currentSubject).length;
+        }
+        
+        const statsText = currentSubject === 'all' 
+            ? `전체 노트: ${totalNotes}개`
+            : `${subjectNames[currentSubject]} 노트: ${subjectNotes}개 (전체: ${totalNotes}개)`;
+            
+        document.getElementById('notesStats').textContent = statsText;
+    }
+
+    // D-DAY 관리 시스템
+    let ddays = {}; // 모든 D-DAY 저장
+    let currentDdayId = null;
+    const categoryNames = {
+        'exam': '시험',
+        'assignment': '과제',
+        'event': '행사',
+        'vacation': '방학',
+        'other': '기타'
+    };
+
+    // 새 D-DAY 추가
+    function addNewDday() {
+        currentDdayId = null;
+        document.getElementById('ddayTitleInput').value = '';
+        document.getElementById('ddayDateInput').value = '';
+        document.getElementById('ddayCategorySelect').value = 'exam';
+        document.getElementById('ddayMemoInput').value = '';
+        document.getElementById('deleteDdayBtn').style.display = 'none';
+        document.getElementById('ddayModal').classList.add('active');
+    }
+
+    // D-DAY 편집
+    function editDday(ddayId) {
+        currentDdayId = ddayId;
+        const dday = ddays[ddayId];
+        
+        document.getElementById('ddayTitleInput').value = dday.title;
+        document.getElementById('ddayDateInput').value = dday.date;
+        document.getElementById('ddayCategorySelect').value = dday.category;
+        document.getElementById('ddayMemoInput').value = dday.memo || '';
+        document.getElementById('deleteDdayBtn').style.display = 'block';
+        document.getElementById('ddayModal').classList.add('active');
+    }
+
+    // D-DAY 저장
+    function saveDday() {
+        const title = document.getElementById('ddayTitleInput').value.trim();
+        const date = document.getElementById('ddayDateInput').value;
+        const category = document.getElementById('ddayCategorySelect').value;
+        const memo = document.getElementById('ddayMemoInput').value.trim();
+
+        if (!title || !date) {
+            alert('제목과 날짜를 입력해주세요!');
+            return;
+        }
+
+        const ddayId = currentDdayId || 'dday_' + Date.now();
+        
+        ddays[ddayId] = {
+            id: ddayId,
+            title: title,
+            date: date,
+            category: category,
+            memo: memo,
+            createdAt: ddays[ddayId]?.createdAt || new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+
+        closeDdayModal();
+        displayDdays();
+        updateDdayStats();
+    }
+
+    // D-DAY 삭제
+    function deleteDday() {
+        if (!currentDdayId || !confirm('정말로 이 일정을 삭제하시겠습니까?')) return;
+        
+        delete ddays[currentDdayId];
+        closeDdayModal();
+        displayDdays();
+        updateDdayStats();
+    }
+
+    // 모달 닫기
+    function closeDdayModal() {
+        document.getElementById('ddayModal').classList.remove('active');
+        currentDdayId = null;
+    }
+
+    // D-DAY 계산
+    function calculateDday(targetDate) {
+        const today = new Date();
+        const target = new Date(targetDate);
+        const diffTime = target - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays;
+    }
+
+    // D-DAY 표시
+    function displayDdays() {
+        const grid = document.getElementById('ddayGrid');
+        const ddayList = Object.values(ddays);
+        
+        // 날짜순 정렬 (가까운 순)
+        ddayList.sort((a, b) => new Date(a.date) - new Date(b.date));
+        
+        grid.innerHTML = '';
+        
+        if (ddayList.length === 0) {
+            grid.innerHTML = '<p style="text-align: center; color: #718096; padding: 40px;">등록된 일정이 없습니다. 새 일정을 추가해보세요!</p>';
+            return;
+        }
+
+        ddayList.forEach(dday => {
+            const daysLeft = calculateDday(dday.date);
+            const card = document.createElement('div');
+            card.className = 'dday-card';
+            card.onclick = () => editDday(dday.id);
+
+            let ddayText, ddayClass;
+            if (daysLeft === 0) {
+                ddayText = 'D-DAY';
+                ddayClass = 'dday-today';
+            } else if (daysLeft > 0) {
+                ddayText = `D-${daysLeft}`;
+                ddayClass = daysLeft <= 7 ? 'dday-soon' : 'dday-normal';
+            } else {
+                ddayText = `D+${Math.abs(daysLeft)}`;
+                ddayClass = 'dday-passed';
+            }
+
+            const formattedDate = new Date(dday.date).toLocaleDateString('ko-KR');
+
+            card.innerHTML = `
+                <div class="dday-number ${ddayClass}">${ddayText}</div>
+                <div class="dday-title">${dday.title}</div>
+                <div class="dday-date">${formattedDate}</div>
+                <div class="dday-category category-${dday.category}">${categoryNames[dday.category]}</div>
+                ${dday.memo ? `<div class="dday-memo">${dday.memo}</div>` : ''}
+            `;
+
+            grid.appendChild(card);
+        });
+    }
+
+    // D-DAY 통계 업데이트
+    function updateDdayStats() {
+        const totalDdays = Object.keys(ddays).length;
+        const todayDdays = Object.values(ddays).filter(dday => calculateDday(dday.date) === 0).length;
+        const soonDdays = Object.values(ddays).filter(dday => {
+            const days = calculateDday(dday.date);
+            return days > 0 && days <= 7;
+        }).length;
+
+        let statsText = `전체 일정: ${totalDdays}개`;
+        if (todayDdays > 0) statsText += ` | 오늘: ${todayDdays}개`;
+        if (soonDdays > 0) statsText += ` | 일주일 내: ${soonDdays}개`;
+
+            alert('휴식 시간이 끝났습니다! 다시 공부해봅시다!');
+            isStudyTime = true;
+            timeLeft = parseInt(document.getElementById('studyMinutes').value) * 60;
+        }
+        
+        updateTimerDisplay();
+        document.getElementById('timerStatus').textContent = isStudyTime ? '공부 시간' : '휴식 시간';
+        updateTimerStats();
+    }
+
+    function updateTimerDisplay() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        document.getElementById('timerDisplay').textContent = 
+            `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function updateTimerStats() {
+        const today = new Date().toDateString();
+        const statsList = document.getElementById('statsList');
+        statsList.innerHTML = '';
+        
+        if (!todayStats[today]) {
+            statsList.innerHTML = '<p>오늘은 아직 공부 기록이 없습니다.</p>';
+            return;
+        }
+        
+        const subjectNames = {
+            'korean': '국어', 'english': '영어', 'math': '수학',
+            'science': '과학', 'social': '사회', 'tech': '기술/가정',
+            'language': '제2외국어', 'other': '기타'
+        };
+        
+        Object.entries(todayStats[today]).forEach(([subject, minutes]) => {
+            const item = document.createElement('div');
+            item.className = 'stats-item';
+            item.innerHTML = `
+                <span>${subjectNames[subject] || subject}</span>
+                <span>${minutes}분</span>
+            `;
+            statsList.appendChild(item);
+        });
+    }
+
+    // 숙제 관리 시스템
+    let homeworks = {};
+    let currentHomeworkId = null;
+    let currentFilter = 'all';
+
+    function addNewHomework() {
+        currentHomeworkId = null;
+        document.getElementById('homeworkTitleInput').value = '';
+        document.getElementById('homeworkSubjectSelect').value = 'korean';
+        document.getElementById('homeworkDateInput').value = '';
+        document.getElementById('homeworkPrioritySelect').value = 'medium';
+        document.getElementById('homeworkDetailsInput').value = '';
+        document.getElementById('deleteHomeworkBtn').style.display = 'none';
+        document.getElementById('homeworkModal').classList.add('active');
+    }
+
+    function editHomework(homeworkId) {
+        currentHomeworkId = homeworkId;
+        const homework = homeworks[homeworkId];
+        
+        document.getElementById('homeworkTitleInput').value = homework.title;
+        document.getElementById('homeworkSubjectSelect').value = homework.subject;
+        document.getElementById('homeworkDateInput').value = homework.dueDate;
+        document.getElementById('homeworkPrioritySelect').value = homework.priority;
+        document.getElementById('homeworkDetailsInput').value = homework.details || '';
+        document.getElementById('deleteHomeworkBtn').style.display = 'block';
+        document.getElementById('homeworkModal').classList.add('active');
+    }
+
+    function saveHomework() {
+        const title = document.getElementById('homeworkTitleInput').value.trim();
+        const subject = document.getElementById('homeworkSubjectSelect').value;
+        const dueDate = document.getElementById('homeworkDateInput').value;
+        const priority = document.getElementById('homeworkPrioritySelect').value;
+        const details = document.getElementById('homeworkDetailsInput').value.trim();
+
+        if (!title || !dueDate) {
+            alert('제목과 마감일을 입력해주세요!');
+            return;
+        }
+
+        const homeworkId = currentHomeworkId || 'homework_' + Date.now();
+        
+        homeworks[homeworkId] = {
+            id: homeworkId,
+            title: title,
+            subject: subject,
+            dueDate: dueDate,
+            priority: priority,
+            details: details,
+            completed: homeworks[homeworkId]?.completed || false,
+            createdAt: homeworks[homeworkId]?.createdAt || new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+
+        closeHomeworkModal();
+        displayHomework();
+        updateHomeworkStats();
+    }
+
+    function deleteHomework() {
+        if (!currentHomeworkId || !confirm('정말로 이 숙제를 삭제하시겠습니까?')) return;
+        
+        delete homeworks[currentHomeworkId];
+        closeHomeworkModal();
+        displayHomework();
+        updateHomeworkStats();
+    }
+
+    function closeHomeworkModal() {
+        document.getElementById('homeworkModal').classList.remove('active');
+        currentHomeworkId = null;
+    }
+
+    function toggleHomework(homeworkId) {
+        homeworks[homeworkId].completed = !homeworks[homeworkId].completed;
+        displayHomework();
+        updateHomeworkStats();
+    }
+
+    function filterHomework(filter) {
+        currentFilter = filter;
+        
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+        
+        displayHomework();
+    }
+
+    function displayHomework() {
+        const list = document.getElementById('homeworkList');
+        let filteredHomeworks = Object.values(homeworks);
+        
+        // 필터 적용
+        if (currentFilter === 'completed') {
+            filteredHomeworks = filteredHomeworks.filter(hw => hw.completed);
+        } else if (currentFilter === 'pending') {
+            filteredHomeworks = filteredHomeworks.filter(hw => !hw.completed);
+        } else if (currentFilter === 'urgent') {
+            filteredHomeworks = filteredHomeworks.filter(hw => hw.priority === 'high' && !hw.completed);
+        }
+        
+        // 정렬 (우선순위 -> 마감일)
+        filteredHomeworks.sort((a, b) => {
+            const priorityOrder = { 'high': 3, 'medium': 2, 'low': 1 };
+            if (priorityOrder[b.priority] !== priorityOrder[a.priority]) {
+                return priorityOrder[b.priority] - priorityOrder[a.priority];
+            }
+            return new Date(a.dueDate) - new Date(b.dueDate);
+        });
+        
+        list.innerHTML = '';
+        
+        if (filteredHomeworks.length === 0) {
+            list.innerHTML = '<p style="text-align: center; color: #718096; padding: 40px;">해당하는 숙제가 없습니다.</p>';
+            return;
+        }
+        
+        const subjectNames = {
+            'korean': '국어', 'english': '영어', 'math': '수학',
+            'science': '과학', 'social': '사회', 'tech': '기술/가정',
+            'language': '제2외국어', 'other': '기타'
+        };
+        
+        const priorityNames = {
+            'high': '급함', 'medium': '보통', 'low': '여유'
+        };
+        
+        filteredHomeworks.forEach(homework => {
+            const item = document.createElement('div');
+            item.className = `homework-item ${homework.completed ? 'completed' : ''}`;
+            
+            const dueDate = new Date(homework.dueDate);
+            const today = new Date();
+            const daysLeft = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+            
+            let dueDateText = dueDate.toLocaleDateString('ko-KR');
+            if (daysLeft === 0) dueDateText += ' (오늘!)';
+            else if (daysLeft < 0) dueDateText += ` (${Math.abs(daysLeft)}일 지남)`;
+            else if (daysLeft <= 3) dueDateText += ` (${daysLeft}일 남음)`;
+            
+            item.innerHTML = `
+                <div class="homework-header-item">
+                    <div class="homework-title">${homework.title}</div>
+                    <input type="checkbox" class="homework-checkbox" ${homework.completed ? 'checked' : ''} 
+                           onchange="toggleHomework('${homework.id}')" onclick="event.stopPropagation()">
+                </div>
+                <div class="homework-meta">
+                    <span class="homework-subject">${subjectNames[homework.subject]}</span>
+                    <span class="homework-priority priority-${homework.priority}">${priorityNames[homework.priority]}</span>
+                    <span>📅 ${dueDateText}</span>
+                    ${homework.details ? `<span>📝 ${homework.details.substring(0, 30)}${homework.details.length > 30 ? '...' : ''}</span>` : ''}
+                </div>
+            `;
+            
+            item.onclick = (e) => {
+                if (e.target.type !== 'checkbox') {
+                    editHomework(homework.id);
+                }
+            };
+            
+            list.appendChild(item);
+        });
+    }
+
+    function updateHomeworkStats() {
+        const total = Object.keys(homeworks).length;
+        const completed = Object.values(homeworks).filter(hw => hw.completed).length;
+        const pending = total - completed;
+        
+        document.getElementById('homeworkStats').textContent = 
+            `전체 숙제: ${total}개 | 완료: ${completed}개 | 미완료: ${pending}개`;
+    }
+
+    // 페이지 로드 시 초기화
+    window.onload = function() {
+        createTimetable();
+        resetTimer();
+        updateTimerStats();
+    };
+</script>
+```
+
 </body>
 </html>
