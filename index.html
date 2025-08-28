@@ -1298,3 +1298,466 @@
     </script>
 </body>
 </html>
+
+// 학급 도우미 기능들
+        
+        // 자리 배치 생성
+        function generateSeating() {
+            const rows = parseInt(document.getElementById('seatingRows').value);
+            const cols = parseInt(document.getElementById('seatingCols').value);
+            const namesText = document.getElementById('studentNames').value.trim();
+            
+            if (!namesText) {
+                alert('학생 이름을 입력해주세요!');
+                return;
+            }
+            
+            const names = namesText.split('\n').filter(name => name.trim()).map(name => name.trim());
+            const chart = document.getElementById('seatingChart');
+            
+            chart.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+            chart.innerHTML = '';
+            
+            // 이름 섞기
+            const shuffledNames = [...names].sort(() => Math.random() - 0.5);
+            
+            for (let i = 0; i < rows * cols; i++) {
+                const seat = document.createElement('div');
+                seat.className = 'seat';
+                
+                if (i < shuffledNames.length) {
+                    seat.textContent = shuffledNames[i];
+                    seat.classList.add('occupied');
+                } else {
+                    seat.textContent = '빈 자리';
+                }
+                
+                chart.appendChild(seat);
+            }
+        }
+
+        // 자리 다시 섞기
+        function shuffleSeating() {
+            const seats = document.querySelectorAll('.seat.occupied');
+            if (seats.length === 0) {
+                alert('먼저 자리 배치를 생성해주세요!');
+                return;
+            }
+            
+            const names = Array.from(seats).map(seat => seat.textContent);
+            const shuffledNames = names.sort(() => Math.random() - 0.5);
+            
+            seats.forEach((seat, index) => {
+                seat.textContent = shuffledNames[index];
+            });
+        }
+
+        // 무작위 숫자 뽑기
+        function generateRandomNumbers() {
+            const start = parseInt(document.getElementById('startNumber').value);
+            const end = parseInt(document.getElementById('endNumber').value);
+            const count = parseInt(document.getElementById('numberCount').value);
+            const allowDuplicate = document.getElementById('allowDuplicateNumbers').checked;
+            
+            if (start >= end) {
+                alert('시작 번호는 끝 번호보다 작아야 합니다!');
+                return;
+            }
+            
+            if (!allowDuplicate && count > (end - start + 1)) {
+                alert('중복을 허용하지 않을 때는 뽑을 개수가 전체 범위보다 클 수 없습니다!');
+                return;
+            }
+            
+            const results = [];
+            const available = [];
+            
+            for (let i = start; i <= end; i++) {
+                available.push(i);
+            }
+            
+            for (let i = 0; i < count; i++) {
+                if (allowDuplicate) {
+                    const randomNum = Math.floor(Math.random() * (end - start + 1)) + start;
+                    results.push(randomNum);
+                } else {
+                    if (available.length === 0) break;
+                    const randomIndex = Math.floor(Math.random() * available.length);
+                    results.push(available.splice(randomIndex, 1)[0]);
+                }
+            }
+            
+            document.getElementById('numberResult').textContent = results.join(', ');
+        }
+
+        // 무작위 이름 뽑기
+        function generateRandomNames() {
+            const namesText = document.getElementById('nameList').value.trim();
+            const count = parseInt(document.getElementById('nameCount').value);
+            const allowDuplicate = document.getElementById('allowDuplicateNames').checked;
+            
+            if (!namesText) {
+                alert('이름 목록을 입력해주세요!');
+                return;
+            }
+            
+            const names = namesText.split('\n').filter(name => name.trim()).map(name => name.trim());
+            
+            if (names.length === 0) {
+                alert('유효한 이름이 없습니다!');
+                return;
+            }
+            
+            if (!allowDuplicate && count > names.length) {
+                alert('중복을 허용하지 않을 때는 뽑을 개수가 전체 이름 수보다 클 수 없습니다!');
+                return;
+            }
+            
+            const results = [];
+            const available = [...names];
+            
+            for (let i = 0; i < count; i++) {
+                if (allowDuplicate) {
+                    const randomName = names[Math.floor(Math.random() * names.length)];
+                    results.push(randomName);
+                } else {
+                    if (available.length === 0) break;
+                    const randomIndex = Math.floor(Math.random() * available.length);
+                    results.push(available.splice(randomIndex, 1)[0]);
+                }
+            }
+            
+            document.getElementById('nameResult').textContent = results.join(', ');
+        }
+
+        // 공부 타이머 시스템
+        let timerInterval = null;
+        let timerMinutes = 25;
+        let timerSeconds = 0;
+        let isRunning = false;
+        let isStudyTime = true;
+        let studyStats = {}; // 과목별 공부 시간 통계
+
+        // 타이머 시작
+        function startTimer() {
+            if (isRunning) return;
+            
+            isRunning = true;
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('pauseBtn').style.display = 'inline-block';
+            
+            timerInterval = setInterval(() => {
+                if (timerSeconds === 0) {
+                    if (timerMinutes === 0) {
+                        // 시간 완료
+                        completeTimer();
+                        return;
+                    }
+                    timerMinutes--;
+                    timerSeconds = 59;
+                } else {
+                    timerSeconds--;
+                }
+                
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        // 타이머 일시정지
+        function pauseTimer() {
+            if (!isRunning) return;
+            
+            isRunning = false;
+            clearInterval(timerInterval);
+            document.getElementById('startBtn').style.display = 'inline-block';
+            document.getElementById('pauseBtn').style.display = 'none';
+        }
+
+        // 타이머 리셋
+        function resetTimer() {
+            isRunning = false;
+            clearInterval(timerInterval);
+            document.getElementById('startBtn').style.display = 'inline-block';
+            document.getElementById('pauseBtn').style.display = 'none';
+            
+            if (isStudyTime) {
+                timerMinutes = parseInt(document.getElementById('studyMinutes').value);
+            } else {
+                timerMinutes = parseInt(document.getElementById('breakMinutes').value);
+            }
+            timerSeconds = 0;
+            
+            updateTimerDisplay();
+        }
+
+        // 타이머 완료
+        function completeTimer() {
+            isRunning = false;
+            clearInterval(timerInterval);
+            
+            if (isStudyTime) {
+                // 공부 시간 완료 - 통계 업데이트
+                const subject = document.getElementById('currentSubject').value;
+                const studyTime = parseInt(document.getElementById('studyMinutes').value);
+                
+                if (!studyStats[subject]) {
+                    studyStats[subject] = 0;
+                }
+                studyStats[subject] += studyTime;
+                
+                updateStudyStats();
+                
+                // 휴식 시간으로 전환
+                isStudyTime = false;
+                timerMinutes = parseInt(document.getElementById('breakMinutes').value);
+                document.getElementById('timerStatus').textContent = '휴식 시간';
+                alert('공부 시간이 끝났습니다! 잠시 휴식을 취하세요.');
+            } else {
+                // 휴식 시간 완료 - 공부 시간으로 전환
+                isStudyTime = true;
+                timerMinutes = parseInt(document.getElementById('studyMinutes').value);
+                document.getElementById('timerStatus').textContent = '공부 시간';
+                alert('휴식 시간이 끝났습니다! 다시 공부를 시작하세요.');
+            }
+            
+            timerSeconds = 0;
+            updateTimerDisplay();
+            document.getElementById('startBtn').style.display = 'inline-block';
+            document.getElementById('pauseBtn').style.display = 'none';
+        }
+
+        // 타이머 표시 업데이트
+        function updateTimerDisplay() {
+            const display = `${timerMinutes.toString().padStart(2, '0')}:${timerSeconds.toString().padStart(2, '0')}`;
+            document.getElementById('timerDisplay').textContent = display;
+        }
+
+        // 공부 통계 업데이트
+        function updateStudyStats() {
+            const statsList = document.getElementById('statsList');
+            const subjectNames = {
+                'korean': '국어',
+                'english': '영어',
+                'math': '수학',
+                'science': '과학',
+                'social': '사회',
+                'tech': '기술/가정',
+                'language': '제2외국어',
+                'other': '기타'
+            };
+            
+            statsList.innerHTML = '';
+            
+            Object.entries(studyStats).forEach(([subject, minutes]) => {
+                const item = document.createElement('div');
+                item.className = 'stats-item';
+                item.innerHTML = `
+                    <span>${subjectNames[subject]}</span>
+                    <span>${minutes}분</span>
+                `;
+                statsList.appendChild(item);
+            });
+            
+            if (Object.keys(studyStats).length === 0) {
+                statsList.innerHTML = '<div class="stats-item"><span>아직 공부 기록이 없습니다.</span><span></span></div>';
+            }
+        }
+
+        // 숙제 관리 시스템
+        let homeworks = {}; // 모든 숙제 저장
+        let currentHomeworkId = null;
+        let homeworkFilter = 'all';
+
+        // 새 숙제 추가
+        function addNewHomework() {
+            currentHomeworkId = null;
+            document.getElementById('homeworkTitleInput').value = '';
+            document.getElementById('homeworkSubjectSelect').value = 'korean';
+            document.getElementById('homeworkDateInput').value = '';
+            document.getElementById('homeworkPrioritySelect').value = 'medium';
+            document.getElementById('homeworkDetailsInput').value = '';
+            document.getElementById('deleteHomeworkBtn').style.display = 'none';
+            document.getElementById('homeworkModal').classList.add('active');
+        }
+
+        // 숙제 편집
+        function editHomework(homeworkId) {
+            currentHomeworkId = homeworkId;
+            const homework = homeworks[homeworkId];
+            
+            document.getElementById('homeworkTitleInput').value = homework.title;
+            document.getElementById('homeworkSubjectSelect').value = homework.subject;
+            document.getElementById('homeworkDateInput').value = homework.dueDate;
+            document.getElementById('homeworkPrioritySelect').value = homework.priority;
+            document.getElementById('homeworkDetailsInput').value = homework.details || '';
+            document.getElementById('deleteHomeworkBtn').style.display = 'block';
+            document.getElementById('homeworkModal').classList.add('active');
+        }
+
+        // 숙제 저장
+        function saveHomework() {
+            const title = document.getElementById('homeworkTitleInput').value.trim();
+            const subject = document.getElementById('homeworkSubjectSelect').value;
+            const dueDate = document.getElementById('homeworkDateInput').value;
+            const priority = document.getElementById('homeworkPrioritySelect').value;
+            const details = document.getElementById('homeworkDetailsInput').value.trim();
+
+            if (!title || !dueDate) {
+                alert('제목과 마감일을 입력해주세요!');
+                return;
+            }
+
+            const homeworkId = currentHomeworkId || 'homework_' + Date.now();
+            
+            homeworks[homeworkId] = {
+                id: homeworkId,
+                title: title,
+                subject: subject,
+                dueDate: dueDate,
+                priority: priority,
+                details: details,
+                completed: homeworks[homeworkId]?.completed || false,
+                createdAt: homeworks[homeworkId]?.createdAt || new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+
+            closeHomeworkModal();
+            displayHomeworks();
+            updateHomeworkStats();
+        }
+
+        // 숙제 삭제
+        function deleteHomework() {
+            if (!currentHomeworkId || !confirm('정말로 이 숙제를 삭제하시겠습니까?')) return;
+            
+            delete homeworks[currentHomeworkId];
+            closeHomeworkModal();
+            displayHomeworks();
+            updateHomeworkStats();
+        }
+
+        // 숙제 완료 토글
+        function toggleHomework(homeworkId) {
+            homeworks[homeworkId].completed = !homeworks[homeworkId].completed;
+            homeworks[homeworkId].updatedAt = new Date().toISOString();
+            displayHomeworks();
+            updateHomeworkStats();
+        }
+
+        // 숙제 필터
+        function filterHomework(filter) {
+            homeworkFilter = filter;
+            
+            // 버튼 활성화
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+            
+            displayHomeworks();
+        }
+
+        // 숙제 표시
+        function displayHomeworks() {
+            const list = document.getElementById('homeworkList');
+            let filteredHomeworks = Object.values(homeworks);
+            
+            // 필터 적용
+            if (homeworkFilter === 'pending') {
+                filteredHomeworks = filteredHomeworks.filter(hw => !hw.completed);
+            } else if (homeworkFilter === 'completed') {
+                filteredHomeworks = filteredHomeworks.filter(hw => hw.completed);
+            } else if (homeworkFilter === 'urgent') {
+                const urgentDate = new Date();
+                urgentDate.setDate(urgentDate.getDate() + 3); // 3일 이내
+                filteredHomeworks = filteredHomeworks.filter(hw => 
+                    !hw.completed && new Date(hw.dueDate) <= urgentDate
+                );
+            }
+            
+            // 마감일순 정렬
+            filteredHomeworks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+            
+            list.innerHTML = '';
+            
+            if (filteredHomeworks.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: #718096; padding: 40px;">해당하는 숙제가 없습니다.</p>';
+                return;
+            }
+
+            const subjectNames = {
+                'korean': '국어', 'english': '영어', 'math': '수학',
+                'science': '과학', 'social': '사회', 'tech': '기술/가정',
+                'language': '제2외국어', 'other': '기타'
+            };
+
+            filteredHomeworks.forEach(homework => {
+                const item = document.createElement('div');
+                item.className = `homework-item ${homework.completed ? 'completed' : ''}`;
+                
+                const dueDate = new Date(homework.dueDate);
+                const today = new Date();
+                const daysLeft = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+                
+                let dueDateText = dueDate.toLocaleDateString('ko-KR');
+                if (daysLeft === 0) dueDateText += ' (오늘!)';
+                else if (daysLeft === 1) dueDateText += ' (내일!)';
+                else if (daysLeft > 1 && daysLeft <= 3) dueDateText += ` (${daysLeft}일 후)`;
+                else if (daysLeft < 0) dueDateText += ` (${Math.abs(daysLeft)}일 지남)`;
+
+                item.innerHTML = `
+                    <div class="homework-header-item">
+                        <div class="homework-title">${homework.title}</div>
+                        <input type="checkbox" class="homework-checkbox" 
+                               ${homework.completed ? 'checked' : ''} 
+                               onchange="toggleHomework('${homework.id}')">
+                    </div>
+                    <div class="homework-meta">
+                        <span class="homework-subject">${subjectNames[homework.subject]}</span>
+                        <span class="homework-priority priority-${homework.priority}">
+                            ${homework.priority === 'high' ? '급함' : homework.priority === 'medium' ? '보통' : '여유'}
+                        </span>
+                        <span>${dueDateText}</span>
+                    </div>
+                    ${homework.details ? `<div style="margin-top: 8px; color: #718096; font-size: 13px;">${homework.details}</div>` : ''}
+                `;
+                
+                item.onclick = (e) => {
+                    if (e.target.type !== 'checkbox') {
+                        editHomework(homework.id);
+                    }
+                };
+                
+                list.appendChild(item);
+            });
+        }
+
+        // 숙제 통계 업데이트
+        function updateHomeworkStats() {
+            const total = Object.keys(homeworks).length;
+            const completed = Object.values(homeworks).filter(hw => hw.completed).length;
+            const pending = total - completed;
+            
+            const urgent = Object.values(homeworks).filter(hw => {
+                if (hw.completed) return false;
+                const urgentDate = new Date();
+                urgentDate.setDate(urgentDate.getDate() + 3);
+                return new Date(hw.dueDate) <= urgentDate;
+            }).length;
+
+            document.getElementById('homeworkStats').textContent = 
+                `전체 숙제: ${total}개 | 완료: ${completed}개 | 미완료: ${pending}개 | 급함: ${urgent}개`;
+        }
+
+        // 숙제 모달 닫기
+        function closeHomeworkModal() {
+            document.getElementById('homeworkModal').classList.remove('active');
+            currentHomeworkId = null;
+        }
+
+        // 페이지 로드 시 초기화
+        window.onload = function() {
+            createTimetable();
+            updateStudyStats();
+            updateTimerDisplay();
+        };
